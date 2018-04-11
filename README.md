@@ -18,5 +18,5 @@ Commit 提交说明: `^` 表示有更新; `+` 代表有文件添加; `-` 代表�
 
 # Install
 ```
-    git clone git@github.com:cczeng/notes.git
+git clone git@github.com:cczeng/notes.git
 ```
