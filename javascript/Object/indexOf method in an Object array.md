@@ -6,7 +6,7 @@
 
 1. [Map().indexOf()](#index)
 2. [findIndex()](#findindex)
-3. [indexOf(arr.filter())](filter)
+3. [indexOf(arr.filter())](#filter)
 
 
 
