@@ -4,8 +4,8 @@
 LIST:   
 
 + [router](router/)
-    - [navigate](navigate.md)
+    - [navigate](router/navigate.md)
 + [service](service/)
-    - [stateful](stateful.md)
+    - [stateful](service/stateful.md)
 + [pipe](pipe/)
-    - [destroy](destroy.md)
+    - [destroy](pipe/destroy.md)
