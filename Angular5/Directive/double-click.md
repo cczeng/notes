@@ -24,7 +24,7 @@ export class DoubleClickDirective {
     this.preventSimpleClick = false;
     this.timer = setTimeout(() => {
       if (!this.preventSimpleClick) {
-        this.myClick.next(e);
+        this.myClick.emit(e);
       }
     }, 300);
   }
@@ -33,10 +33,11 @@ export class DoubleClickDirective {
   ondblClick(e) {
     this.preventSimpleClick = true;
     clearTimeout(this.timer);
-    this.mydblClick.next(e);
+    this.mydblClick.emit(e);
   }
 
 }
+
 
 
 ```
