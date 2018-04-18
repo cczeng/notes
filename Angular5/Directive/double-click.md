@@ -8,44 +8,41 @@
 import { Directive, Output, EventEmitter, HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[myClick],[myDblClick]'
+  selector: '[appDoubleClick]'
 })
 export class DoubleClickDirective {
   @Output() myClick = new EventEmitter<any>();
-  @Output() myDblClick = new EventEmitter<any>();
+  @Output() mydblClick = new EventEmitter<any>();
 
-  preventSimpleClick = false;
+  preventSimpleClick: boolean = false;
   timer;
+
+  constructor() { }
 
   @HostListener('click', ['$event'])
   onClick(e) {
     this.preventSimpleClick = false;
     this.timer = setTimeout(() => {
       if (!this.preventSimpleClick) {
-        console.log('simple click');
         this.myClick.next(e);
       }
     }, 300);
   }
 
   @HostListener('dblclick', ['$event'])
-  onDblClick(e) {
+  ondblClick(e) {
     this.preventSimpleClick = true;
     clearTimeout(this.timer);
-    this.myDblClick.next(e);
-    console.log('double click');
+    this.mydblClick.next(e);
   }
 
-
-
-  constructor() { }
-
 }
+
 
 ```
 
 组件使用:   
 
 ```javascript
-<a (myClick)="one()" (myDblClick)="two()" DoubleClick>test double click</a>
+<a (myClick)="one()" (mydblClick)="two()" appDoubleClick>test double click</a>
 ```
