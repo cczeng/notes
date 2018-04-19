@@ -1,13 +1,18 @@
 # Angular5
 
 
-LIST:   
+## Angular
 
-+ [router](router/)
-    - [navigate](router/navigate.md)
-+ [service](service/)
-    - [stateful](service/stateful.md)
-+ [pipe](pipe/)
-    - [destroy](pipe/destroy.md)
-+ [Directive](Directive/)
-    - [double-click](Directive/double-click.md)
++ [Angular Cli command - 常用命令](cli_command.md)
++ [Angular route 404 - 刷新404](router_404.md)
+
+## 分类
+
++ [router - 路由](router/)
+    - [navigate - 路由跳转](router/navigate.md)
++ [service - 服务](service/)
+    - [destroy - destroy钩子](service/destroy.md)
++ [pipe - 管道](pipe/)
+    - [stateful - 有状态管道](pipe/stateful.md)
++ [Directive - 指令](Directive/)
+    - [double-click - 单双击冲突](Directive/double-click.md)   
