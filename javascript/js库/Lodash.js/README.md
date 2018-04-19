@@ -6,4 +6,5 @@
 
 List:   
 
-- [filter](filter.md)
+- [filter - filter 出来的结果不是deepClone](filter.md)
+- [assign - Object对象的多个合并方法](assign.md)
