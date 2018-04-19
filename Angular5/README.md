@@ -17,3 +17,4 @@
     - [stateful - 有状态管道](pipe/stateful.md)
 + [Directive - 指令](Directive/)
     - [double-click - 单双击冲突](Directive/double-click.md)   
+    - [debounce click - 去抖动](Directive/debounceClick.md)   
