@@ -5,6 +5,7 @@
 
 + [Angular Cli command - 常用命令](cli_command.md)
 + [Angular route 404 - 刷新404](router_404.md)
++ [Template syntax - 模板语法](Template_syntax.md)
 
 ## 分类
 
