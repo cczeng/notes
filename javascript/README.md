@@ -1,5 +1,7 @@
 # javascript
 
-- [object](Object/)
-    + indexOf in Object array
+
+- [js 库](js库/README.md)
+- [object](Object/README.md)
+    
 
