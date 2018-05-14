@@ -13,6 +13,7 @@
     - [navigate - 路由跳转](router/navigate.md)
 + [service - 服务](service/)
     - [destroy - destroy钩子](service/destroy.md)
+    - [return async - 异步返回数据](service/return_async.md)
 + [pipe - 管道](pipe/)
     - [stateful - 有状态管道](pipe/stateful.md)
 + [Directive - 指令](Directive/)
