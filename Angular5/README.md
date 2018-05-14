@@ -20,3 +20,4 @@
     - [debounce click - 去抖动](Directive/debounceClick.md)   
 + [forms](forms/)
     - [prevent input pwd - 防止浏览器自动填充密码](forms/prevent_input_pwd.md)
+    - [form control - 表单控制/去抖动](forms/form_control.md)
