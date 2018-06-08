@@ -9,6 +9,8 @@
 
 ## 分类
 
++ [Template Syntax](Template Syntax/)
+    - [ngModel - 双向绑定语法糖](Template Syntax/ngModel.md)
 + [router - 路由](router/)
     - [navigate - 路由跳转](router/navigate.md)
 + [service - 服务](service/)
