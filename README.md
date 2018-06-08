@@ -15,6 +15,7 @@ Commit 提交说明: `^` 表示有更新; `+` 代表有文件添加; `-` 代表�
 - [javascript](javascript/)
 - [Angular5](Angular5/)
 - [python](python/)
+- [微信小程序](微信小程序/)
 
 # Install
 ```
