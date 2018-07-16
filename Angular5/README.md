@@ -6,6 +6,7 @@
 + [Angular Cli command - 常用命令](cli_command.md)
 + [Angular route 404 - 刷新404](router_404.md)
 + [Template syntax - 模板语法](Template_syntax.md)
++ [build not found - 之后放在网站二级目录下会找不到资源 ](build_not_found.md)
 
 ## 分类
 
