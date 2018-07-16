@@ -68,7 +68,7 @@
 
 ## 微信小程序模块示意图
 
-![微信小程序模块示意图](./images/layout.jpg)
+![微信小程序模块示意图](../images/layout.jpg)
 
   
 
@@ -77,4 +77,4 @@
 
 ## 微信小程序模块示意图
 
-![微信小程序模块示意图](./images/tabBar.png)
+![微信小程序模块示意图](../images/tabBar.png)
