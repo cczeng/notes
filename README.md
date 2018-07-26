@@ -12,6 +12,7 @@ Commit 提交说明: `^` 表示有更新; `+` 代表有文件添加; `-` 代表�
 **List:**
 - [Angular](Angular5/)
 - [css](css/)
+- [git](git/)
 - [javascript](javascript/)
 - [python](python/)
 - [web](web/)
