@@ -1,4 +1,4 @@
-# [WOWJS](https://github.com/matthieua/WOW)  - 鼠标滚轮移动到指定元素位置显示动画效果
+# [WOWJS](https://github.com/matthieua/WOW)  - 鼠标滚轮移动到指定元素位置显示动画效果
 
 
 # 安装: 
