@@ -1,6 +1,6 @@
 # css grid 溢出滚动   
 
-上下固定高度,中间滚动是很多网页的典型布局.加上左右两侧的话就是 `圣杯布局`    
+上下固定高度,中间滚动是很多网页的典型布局.加上左右两侧的话就是 `圣杯布局`    
 
 这次碰到的问题是多级 `grid` 嵌套之后需要进行溢出滚动。   
 
@@ -11,7 +11,7 @@
   
 [参考链接 —— stack overflow](https://stackoverflow.com/questions/43352501/css-grid-content-to-use-free-space-but-scroll-when-bigger)
 
-```html
+```html
 <!DOCTYPE html>
 <html lang="en">
 

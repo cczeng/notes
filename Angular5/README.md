@@ -10,8 +10,8 @@
 
 ## 分类
 
-+ [Template Syntax](Template Syntax/)
-    - [ngModel - 双向绑定语法糖](Template Syntax/ngModel.md)
++ [Template Syntax](Template_Syntax/)
+    - [ngModel - 双向绑定语法糖](Template_Syntax/ngModel.md)
 + [http](http/)
     - [cross domain 跨域](http/README.md)
 + [router - 路由](router/)
