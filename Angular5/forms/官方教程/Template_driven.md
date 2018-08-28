@@ -5,7 +5,7 @@
 
 
 
-**`Angular`表单分为两部分**: 基于`HTML`的模板和`组件类`，用来程序处理数据和交互。
+**`Angular`表单分为两部分**: 基于`HTML的模板`和`组件类`，用来程序处理数据和交互。
 
 ## 组件类
 
@@ -18,7 +18,7 @@
 把整个表单指令的引用赋值给 `heroForm` 变量.  
 
 > NgForm 指令   
-> 什么是`NgForm`指令？但你明明没有添加过`[NgFrom](https://angular.io/api/forms/NgForm)`指令！   
+> 什么是`NgForm`指令？但你明明没有添加过[NgFrom](https://angular.io/api/forms/NgForm)指令！   
 > `Angular`替你做了。`Angular`会在`<form>`标签上自动创建并附加一个`NgForm`指令。  
 > `NgForm`指令为`form`增补了一些额外特性。他会控制那些带有`NgModel`指令和`name`属性的元素,监听他们的属性(包括其有效性).它还有自己的`valid`属性,这个属性只有在`它包含的每个控件都有效`时才是真的.   
 

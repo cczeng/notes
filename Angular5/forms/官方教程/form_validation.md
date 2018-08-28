@@ -103,6 +103,81 @@ get power() { return this.heroForm.get('power'); }
 
 
 
+完整的HTML绑定：
+
+```html
+<div class="container">
+
+  <h1>Reactive Form</h1>
+
+  <form [formGroup]="heroForm" #formDir="ngForm">
+
+    <div [hidden]="formDir.submitted">
+
+      <div class="cross-validation" [class.cross-validation-error]="heroForm.errors?.identityRevealed && (heroForm.touched || heroForm.dirty)">
+        <div class="form-group">
+
+          <label for="name">Name</label>
+          <input id="name" class="form-control"
+                formControlName="name" required >
+
+          <div *ngIf="name.invalid && (name.dirty || name.touched)"
+              class="alert alert-danger">
+
+            <div *ngIf="name.errors.required">
+              Name is required.
+            </div>
+            <div *ngIf="name.errors.minlength">
+              Name must be at least 4 characters long.
+            </div>
+            <div *ngIf="name.errors.forbiddenName">
+              Name cannot be Bob.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="alterEgo">Alter Ego</label>
+          <input id="alterEgo" class="form-control"
+              formControlName="alterEgo"  >
+        </div>
+
+        <div *ngIf="heroForm.errors?.identityRevealed && (heroForm.touched || heroForm.dirty)" class="cross-validation-error-message alert alert-danger">
+            Name cannot match alter ego.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="power">Hero Power</label>
+        <select id="power" class="form-control"
+            formControlName="power" required >
+          <option *ngFor="let p of powers" [value]="p">{{p}}</option>
+        </select>
+
+        <div *ngIf="power.invalid && power.touched" class="alert alert-danger">
+          <div *ngIf="power.errors.required">Power is required.</div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-default"
+             [disabled]="heroForm.invalid">Submit</button>
+      <button type="button" class="btn btn-default"
+             (click)="formDir.resetForm({})">Reset</button>
+    </div>
+  </form>
+
+  <div class="submitted-message" *ngIf="formDir.submitted">
+    <p>You've submitted your hero, {{ heroForm.value.name }}!</p>
+    <button (click)="formDir.resetForm({})">Add new hero</button>
+  </div>
+</div>
+```
+
+- `form`标签上使用 `[formGroup]="heroForm"` 来绑定相应的控制器
+- 使用`#formDir="ngForm"`绑定ngForm
+
+
+
 ## 自定义验证器
 
 由于内置验证器无法适用于所有应用场景，有时候你还是得创建自定义验证器。
