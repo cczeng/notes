@@ -46,6 +46,4 @@ export class CourseComponent implements OnInit {
 <meta name="description" content="描述,对网站的描述"/>      // 对网站的描述
 <meta name="description" content="关键词1关键词2关键词3是我们的主要经营产品，所以你需要1关键词2关键词3请联系（公司名称+联系电话）"/>      // 例子
 
-```  
-
-上面可参考另一篇文章讲到的 ``
+```
