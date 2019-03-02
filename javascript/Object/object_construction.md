@@ -1,7 +1,7 @@
-# 对象结构   
-  
+# 对象解构   
+
 > 可参考 [阮一峰-ECMAScript 6 入门](http://es6.ruanyifeng.com/#docs/destructuring)    
-   
+
 ## 数组的结构赋值
 
 ```javascript
@@ -27,14 +27,14 @@ let [x, y, ...z] = ['a'];
 x // "a"
 y // undefined
 z // []
-```   
+```
 
 如果结构不成功，变量的值则为`undefined`   
 
 ```javascript
 let [foo] = [];
 let [bar, foo] = [1];
-```   
+```
 
 ## 默认值   
 
@@ -90,7 +90,7 @@ msg // "Something went wrong"
 ```
 
 ## 字符串结构赋值   
-  
+
 ```javascript
 const [a,b,c,d,e] = 'Hello';
 a // "h"
@@ -98,13 +98,13 @@ b // "e"
 c // "l"
 d // "l"
 e // "o"
-```  
+```
 `length`   
 
 ```javascript
 let {length: len} = 'hello';
 len // 5
-```  
+```
 
 ## 数值和布尔值的结构赋值   
 
@@ -114,7 +114,7 @@ s === Number.prototype.toString //true
 
 let {toString: s} = true;
 s === Boolean.prototype.toString //true
-```  
+```
 ## 函数参数的结构赋值   
 
 ```javascript
@@ -135,7 +135,7 @@ move(); // [0, 0]
 
 [1,undefined,3].map((x='yes')=>x);
 // [1,'yes',3]
-```    
+```
 ## 用途  
 
 1. 交换变量的值   
@@ -145,7 +145,7 @@ let x = 1;
 let y = 2;
 
 [x, y] = [y, x];
-```   
+```
 
 2. 从函数返回多个值   
 
@@ -166,7 +166,7 @@ function example() {
   };
 }
 let { foo, bar } = example();
-```   
+```
 
 3. 函数参数的定义   
 
@@ -178,8 +178,8 @@ f([1, 2, 3]);
 // 参数是一组无次序的值
 function f({x, y, z}) { ... }
 f({z: 3, y: 2, x: 1});
-```   
-  
+```
+
 4. 提取JSON数据   
 
 ```javascript
@@ -193,8 +193,8 @@ let { id, status, data: number } = jsonData;
 
 console.log(id, status, number);
 // 42, "OK", [867, 5309]
-```   
-  
+```
+
 5. 函数参数的默认值   
 
 ```javascript
@@ -209,4 +209,4 @@ jQuery.ajax = function (url, {
 } = {}) {
   // ... do stuff
 };
-```   
+```
