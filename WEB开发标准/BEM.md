@@ -14,7 +14,7 @@ BEM 是一个编写标准，结构化的CSS命名规则。
 
 
 
-![image-20190316170056364](/Users/liang/Desktop/github/notes/WEB开发标准/images/bem.png)
+![image-20190316170056364](./images/bem.png)
 
 
 
