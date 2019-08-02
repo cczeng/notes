@@ -99,9 +99,9 @@ TODO: remove this: {{model.name}}
 
 现在可以看到有以下几种class类:     
 
-![Class类](/Angular5/images/forms/control-state-transitions-anim.gif)
+![Class类](../../images/forms/control-state-transitions-anim.gif)
 
-![Class类](/Angular5/images/forms/ng-control-class-changes.png)
+![Class类](../../images/forms/ng-control-class-changes.png)
 
 图片来自Angular官方例子
 
@@ -118,7 +118,7 @@ TODO: remove this: {{model.name}}
 
 当用户删除必选的输入时,应该提醒用户.   
 
-![Class类](/Angular5/images/forms/name-required-error.png)
+![Class类](../../images/forms/name-required-error.png)
 
 下面这个例子中把一条错误信息添加到了`name`输入框中:   
 
