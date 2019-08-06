@@ -255,3 +255,173 @@ transition('* => inactive', [
 ]),
 ```
 
+  
+
+# 4. 复杂动画  
+
+- 使用`query()`和`stagger()` 函数为多个元素设置动画
+- 使用`group()`函数的并行动画
+- 顺序动画与平行动画
+
+  
+
+控制复杂动画序列的函数如下：   
+
+- `query()` 找到一个或多个内部HTML元素 
+- `stagger()` 对多个元素的动画应用练级延迟
+- `group()` 并行运行多个动画步骤
+- `sequence()` 一个接一个地运行动画步骤    
+
+
+
+**多个元素设置动画**  
+
+```js
+animations: [
+    trigger('pageAnimations', [
+      transition(':enter', [
+        query('.hero, form', [ // 查找.hero 和 form 元素
+          style({opacity: 0, transform: 'translateY(-100px)'}), // 转场前的样式
+          stagger(-30, [ // 延迟30ms
+            animate('500ms cubic-bezier(0.35, 0, 0.25, 1)', style({ opacity: 1, transform: 'none' }))
+          ])
+        ])
+      ])
+    ]),
+  ]
+})
+export class HeroListPageComponent implements OnInit {
+  @HostBinding('@pageAnimations')
+  public animatePage = true;
+}
+```
+
+  
+
+**并行动画**  
+
+```js
+animations: [
+  trigger('flyInOut', [
+    state('in', style({
+      width: 120,
+      transform: 'translateX(0)', opacity: 1
+    })),
+    transition('void => *', [
+      style({ width: 10, transform: 'translateX(50px)', opacity: 0 }),
+      group([
+        // 动画会一起执行
+        animate('0.3s 0.1s ease', style({
+          transform: 'translateX(0)',
+          width: 120
+        })),
+        // 动画会一起执行
+        animate('0.3s ease', style({
+          opacity: 1
+        }))
+      ])
+    ]),
+    transition('* => void', [
+      group([
+        animate('0.3s ease', style({
+          transform: 'translateX(50px)',
+          width: 10
+        })),
+        animate('0.3s 0.2s ease', style({
+          opacity: 0
+        }))
+      ])
+    ])
+  ])
+]
+```
+
+  
+
+**实例**  
+
+```html
+<ul class="heroes" [@filterAnimation]="heroTotal"></ul>
+```
+
+```js
+@Component({
+  animations: [
+    trigger('filterAnimation', [
+      transition(':enter, * => 0, * => -1', []),
+      transition(':increment', [
+        query(':enter', [
+          style({ opacity: 0, width: '0px' }),
+          stagger(50, [
+            animate('300ms ease-out', style({ opacity: 1, width: '*' })),
+          ]),
+        ], { optional: true })
+      ]),
+      transition(':decrement', [
+        query(':leave', [
+          stagger(50, [
+            animate('300ms ease-out', style({ opacity: 0, width: '0px' })),
+          ]),
+        ])
+      ]),
+    ]),
+  ]
+})
+export class HeroListPageComponent implements OnInit {
+  heroTotal = -1;
+}
+```
+
+# 5. [可重复使用的动画](<https://angular.io/guide/reusable-animations>)
+
+## 创建可重复使用的动画  
+
+在单独的 `.ts` 文件中编写  
+
+```js
+import {
+  animation, trigger, animateChild, group,
+  transition, animate, style, query
+} from '@angular/animations';
+
+export const transAnimation = animation([
+  style({
+    height: '{{ height }}',
+    opacity: '{{ opacity }}',
+    backgroundColor: '{{ backgroundColor }}'
+  }),
+  animate('{{ time }}')
+]);
+```
+
+> **注：**该`height`，`opacity`，`backgroundColor`，和`time`输入运行时更换。   
+
+您可以`transAnimation`在组件类中导入可重用变量，并使用`useAnimation()`如下所示的方法重用它。    
+
+```js
+import { Component } from '@angular/core';
+import { useAnimation, transition, trigger, style, animate } from '@angular/animations';
+import { transAnimation } from './animations';
+
+@Component({
+    trigger('openClose', [
+      transition('open => closed', [
+        useAnimation(transAnimation, {	// 这里使用并传递参数
+          params: {
+            height: 0,
+            opacity: 1,
+            backgroundColor: 'red',
+            time: '1s'
+          }
+        })
+      ])
+    ])
+  ],
+})
+```
+
+  
+
+# 6. 路由动画  
+
+[点击跳转](./router_animation.md)
