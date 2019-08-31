@@ -185,57 +185,102 @@ export class NzDemoTableExpandChildrenComponent implements OnInit {
   }
 
   step(number) {
-    this.activeItem = this.nextTr(this.mapOfExpandedData, this.activeItem, number);
+    const {item} = this.nextTr(this.mapOfExpandedData, this.activeItem, number);
+    this.activeItem = item;
   }
 
-  nextTr(mapOfExpandedData, activeItem, step: number) {
+  /**
+   * ng-zorro官方例子中折叠面板
+   * 用于返回一个被选中的项,根据传递进来的 step
+   * @param {*} mapOfExpandedData - ng-zorro 官方例子的数据格式: {1: [{},{}],2:[{},{}]}
+   * @param {*} activeItem - 当前选中项,需要传递mapOfExpandedData中项的格式,其中包含key: 1,2,3 和 level,expand 等字段
+   * @param {number} step - 需要步进的数: 1,-1 分别代表下一个和上一个
+   * @returns {{ item, headerOpt: string[] }} - 返回被选中的项和headerOpt数组
+   * @memberof YhaoTableService
+   */
+  selectExpandTr(mapOfExpandedData, activeItem, step: number): { item, headerOpt: string[] } {
+    console.log(step)
+    let headerOpt = [];
+
+    if (step === 0) {
+      return { item: activeItem, headerOpt: this.behavior.select_arrowUpDown };
+    }
 
     // 无数据
     if (!Object.keys(mapOfExpandedData).length) {
-      return null;
+      headerOpt = this.behavior.init;
+      return { item: null, headerOpt: headerOpt };
     }
 
     // 只有一条数据
     if (Object.keys(mapOfExpandedData).length === 1 && mapOfExpandedData['1'].length === 1) {
       activeItem = mapOfExpandedData['1'][0];
-      return activeItem;
+      headerOpt = this.behavior.onlyOneData;
+      return { item: activeItem, headerOpt: headerOpt };
     }
 
-
+    // 没有选中任何 
     if (!activeItem) {
       activeItem = mapOfExpandedData['1'][0];
-      return activeItem;
+      headerOpt = this.behavior.select_arrowDown;
+      return { item: activeItem, headerOpt: headerOpt };
     }
+
+    const backFn = (curLevelIdx: number, step: number) => {
+      while (mapOfExpandedData[curLevelIdx].length < Math.abs(step)) {
+        step = mapOfExpandedData[curLevelIdx].length + step;
+        curLevelIdx += step < 0 ? 1 : -1;
+      }
+      if (mapOfExpandedData[curLevelIdx].length === 1) {
+        step = mapOfExpandedData[curLevelIdx + step].length + step;
+        curLevelIdx += step < 0 ? 1 : -1;
+      } else {
+        step = mapOfExpandedData[curLevelIdx].length - 1 + step;
+      }
+      return { curLevelIdx: curLevelIdx, step: step };
+    }
+
 
     const maxLevel = Object.keys(mapOfExpandedData).length;
     const currentPath = activeItem.key.split(',').map(Number);
-    const currentLevel = mapOfExpandedData[currentPath[0]];
-    const currentIndex = currentLevel.findIndex(v => v.key === activeItem.key);
+    let currentLevel = mapOfExpandedData[currentPath[0]];
+    let currentIndex = currentLevel.findIndex(v => v.key === activeItem.key);
+
+
 
     // 层的最后一个
     if (currentLevel[currentLevel.length - 1] === activeItem) {
 
-      let baseLevel = Math.abs(currentPath[0] + step) === maxLevel ? maxLevel : Math.abs(currentPath[0] + step) < maxLevel && currentPath[0] + step > 0 ? currentPath[0] + step : 1;
+      let baseLevel = Math.abs(currentPath[0] + step) === maxLevel
+        ? maxLevel
+        : Math.abs(currentPath[0] + step) < maxLevel && currentPath[0] + step > 0
+          ? currentPath[0] + step
+          : 1;
 
       if (step < 0) {
         // 处理最后一行向上, 不然直接跳转到上一层选中去了,这里还需要做一个上一层的状态开关判断，如果展开了的话则选中最后
-        let nextLevels = mapOfExpandedData[baseLevel].filter(v => v.level === baseLevel);
-        let nextLevel = nextLevels[nextLevels.length - 1];
+        const { curLevelIdx, step: n } = backFn(currentPath[0], step);
 
-        console.log(nextLevels);
-        // 一层一层往下找,找到最后一项
-        while (nextLevel.expand) {
-          nextLevels = mapOfExpandedData[baseLevel].filter(v => v.level === nextLevel.level + 1);
-          nextLevel = nextLevels[nextLevels.length - 1];
-          console.log(nextLevels);
+
+        let nextLevel = mapOfExpandedData[curLevelIdx][n];
+
+        if (!nextLevel) {
+          nextLevel = mapOfExpandedData[curLevelIdx][0];
         }
 
-        activeItem = nextLevel === activeItem ? nextLevels[nextLevels.length - 2] : nextLevel;
-        return activeItem;
+        // 父級沒有展開,選中父級
+        while (!nextLevel.expand && !nextLevel!.children && nextLevel!.parent !== activeItem!.parent) {
+          nextLevel = nextLevel.parent;
+        }
+
+        activeItem = nextLevel;
+        headerOpt = this.behavior.select_arrowUpDown;
+        return { item: activeItem, headerOpt: headerOpt };
       }
 
       activeItem = mapOfExpandedData[baseLevel][0];
-      return activeItem;
+      headerOpt = this.behavior.select_arrowUpDown;
+      return { item: activeItem, headerOpt: headerOpt };
     }
 
     // 上面的逻辑处理除了一级层之外的所有最后一个，下面的逻辑处理在 2-n 层之内的切换
@@ -243,35 +288,43 @@ export class NzDemoTableExpandChildrenComponent implements OnInit {
     // 在二级或者三级一类的层
     let currentItem: any = currentLevel[currentIndex];
     let nextIndex = currentIndex + step;
+
+    if (currentIndex === 0 && step < 0) {
+      // 到上一个
+      currentLevel = mapOfExpandedData[currentPath[0] - 1];
+      nextIndex = currentLevel.length + step;
+    }
+
     let nextItem: any = currentLevel[nextIndex];
 
     while (nextItem) {
       // 当前是折叠展开的则下一行，并且下一个不是当前选中层的上层
       console.log(`
-        activeItem: expand - ${activeItem.expand} level - ${activeItem.level} key - ${activeItem.key}
-        nextItem  : expand - ${nextItem.expand} level - ${nextItem.level} key - ${nextItem.key}
-      `);
+          activeItem: expand - ${activeItem.expand} level - ${activeItem.level} key - ${activeItem.key}
+          nextItem  : expand - ${nextItem.expand} level - ${nextItem.level} key - ${nextItem.key}
+        `);
 
       // 如果符合条件的则直接下一个，不符合的继续按 mapOfExpandedData 结构指向下一个
       if (
+        nextItem!.parent && nextItem!.parent.expand &&
         nextItem.level > currentItem.level && currentItem.expand
         || (nextItem.children && nextItem.level === currentItem.level)
         || (nextItem.level <= currentItem.level && !currentItem.children)
-        // || (!currentItem.children && currentItem.level >= nextItem.level)
         || (nextItem.level > currentItem.level && nextItem.parent.expand)
         || (nextItem.level === currentItem.level && nextItem.parent.expand)
         || (nextItem.level < currentItem.level && nextItem.key.length < currentItem.key.length)
       ) {
         activeItem = nextItem;
-        return activeItem;
+        headerOpt = this.behavior.select_arrowUpDown;
+        return { item: activeItem, headerOpt: headerOpt };
       }
 
       nextIndex = nextIndex + step;
       nextItem = currentLevel[nextIndex];
     }
-
     activeItem = mapOfExpandedData[currentPath[0] + 1][0]
-    return activeItem;
+    headerOpt = this.behavior.select_arrowUpDown;
+    return { item: activeItem, headerOpt: headerOpt };
   }
 
 }
