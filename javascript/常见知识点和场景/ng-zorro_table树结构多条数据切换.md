@@ -189,40 +189,41 @@ export class NzDemoTableExpandChildrenComponent implements OnInit {
     this.activeItem = item;
   }
 
-  /**
+    /**
    * ng-zorro官方例子中折叠面板
    * 用于返回一个被选中的项,根据传递进来的 step
    * @param {*} mapOfExpandedData - ng-zorro 官方例子的数据格式: {1: [{},{}],2:[{},{}]}
    * @param {*} activeItem - 当前选中项,需要传递mapOfExpandedData中项的格式,其中包含key: 1,2,3 和 level,expand 等字段
    * @param {number} step - 需要步进的数: 1,-1 分别代表下一个和上一个
+   * @param {boolean} isEdit - 是否在编辑状态,用于判断返回 headerOpt 的字段是不是包含一些保存按钮
    * @returns {{ item, headerOpt: string[] }} - 返回被选中的项和headerOpt数组
    * @memberof YhaoTableService
    */
-  selectExpandTr(mapOfExpandedData, activeItem, step: number): { item, headerOpt: string[] } {
-    console.log(step)
+  selectExpandTr(mapOfExpandedData, activeItem, step: number, isEdit: boolean): { item, headerOpt: string[] } {
+
     let headerOpt = [];
 
     if (step === 0) {
-      return { item: activeItem, headerOpt: this.behavior.select_arrowUpDown };
+      return { item: activeItem, headerOpt: isEdit ? this.behavior.edit_arrowUpDown : this.behavior.select_arrowUpDown };
     }
 
     // 无数据
     if (!Object.keys(mapOfExpandedData).length) {
-      headerOpt = this.behavior.init;
+      headerOpt = isEdit ? this.behavior.onlyOneData : this.behavior.init;
       return { item: null, headerOpt: headerOpt };
     }
 
     // 只有一条数据
     if (Object.keys(mapOfExpandedData).length === 1 && mapOfExpandedData['1'].length === 1) {
       activeItem = mapOfExpandedData['1'][0];
-      headerOpt = this.behavior.onlyOneData;
+      headerOpt = isEdit ? this.behavior.onlyOneData : this.behavior.onlyOneData;
       return { item: activeItem, headerOpt: headerOpt };
     }
 
     // 没有选中任何 
     if (!activeItem) {
       activeItem = mapOfExpandedData['1'][0];
-      headerOpt = this.behavior.select_arrowDown;
+      headerOpt = isEdit ? this.behavior.edit_arrowDown : this.behavior.select_arrowDown;
       return { item: activeItem, headerOpt: headerOpt };
     }
 
@@ -269,17 +270,17 @@ export class NzDemoTableExpandChildrenComponent implements OnInit {
         }
 
         // 父級沒有展開,選中父級
-        while (!nextLevel.expand && !nextLevel!.children && nextLevel!.parent !== activeItem!.parent) {
+        while (nextLevel!.parent && !nextLevel.parent.expand && !nextLevel!.children && nextLevel!.parent !== activeItem!.parent) {
           nextLevel = nextLevel.parent;
         }
 
         activeItem = nextLevel;
-        headerOpt = this.behavior.select_arrowUpDown;
+        headerOpt = isEdit ? this.behavior.edit_arrowUpDown : this.behavior.select_arrowUpDown;
         return { item: activeItem, headerOpt: headerOpt };
       }
 
       activeItem = mapOfExpandedData[baseLevel][0];
-      headerOpt = this.behavior.select_arrowUpDown;
+      headerOpt = isEdit ? this.behavior.edit_arrowUpDown : this.behavior.select_arrowUpDown;
       return { item: activeItem, headerOpt: headerOpt };
     }
 
@@ -291,7 +292,8 @@ export class NzDemoTableExpandChildrenComponent implements OnInit {
 
     if (currentIndex === 0 && step < 0) {
       // 到上一个
-      currentLevel = mapOfExpandedData[currentPath[0] - 1];
+      const nextLevel = currentPath[0] - 1 < 1 ? maxLevel : currentPath[0] - 1;
+      currentLevel = mapOfExpandedData[nextLevel];
       nextIndex = currentLevel.length + step;
     }
 
@@ -299,10 +301,6 @@ export class NzDemoTableExpandChildrenComponent implements OnInit {
 
     while (nextItem) {
       // 当前是折叠展开的则下一行，并且下一个不是当前选中层的上层
-      console.log(`
-          activeItem: expand - ${activeItem.expand} level - ${activeItem.level} key - ${activeItem.key}
-          nextItem  : expand - ${nextItem.expand} level - ${nextItem.level} key - ${nextItem.key}
-        `);
 
       // 如果符合条件的则直接下一个，不符合的继续按 mapOfExpandedData 结构指向下一个
       if (
@@ -310,12 +308,12 @@ export class NzDemoTableExpandChildrenComponent implements OnInit {
         nextItem.level > currentItem.level && currentItem.expand
         || (nextItem.children && nextItem.level === currentItem.level)
         || (nextItem.level <= currentItem.level && !currentItem.children)
-        || (nextItem.level > currentItem.level && nextItem.parent.expand)
-        || (nextItem.level === currentItem.level && nextItem.parent.expand)
+        || (nextItem.level > currentItem.level && nextItem!.parent!.expand)
+        || (nextItem.level === currentItem.level && nextItem!.parent!.expand)
         || (nextItem.level < currentItem.level && nextItem.key.length < currentItem.key.length)
       ) {
         activeItem = nextItem;
-        headerOpt = this.behavior.select_arrowUpDown;
+        headerOpt = isEdit ? this.behavior.edit_arrowUpDown : this.behavior.select_arrowUpDown;
         return { item: activeItem, headerOpt: headerOpt };
       }
 
@@ -323,7 +321,7 @@ export class NzDemoTableExpandChildrenComponent implements OnInit {
       nextItem = currentLevel[nextIndex];
     }
     activeItem = mapOfExpandedData[currentPath[0] + 1][0]
-    headerOpt = this.behavior.select_arrowUpDown;
+    headerOpt = isEdit ? this.behavior.edit_arrowUpDown : this.behavior.select_arrowUpDown;
     return { item: activeItem, headerOpt: headerOpt };
   }
 
